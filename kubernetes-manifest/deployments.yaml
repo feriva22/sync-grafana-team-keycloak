@@ -70,13 +70,13 @@ spec:
               name: grafana-sync-secret
               key: grafana_token
         # Grafana Username (if needed)
-        - name: GRAFANA_USERNAME
+        - name: GRAFANA_USER
           valueFrom:
             secretKeyRef:
               name: grafana-sync-secret
               key: grafana_user
         # Grafana Password (if needed)
-        - name: GRAFANA_PASSWORD
+        - name: GRAFANA_PASS
           valueFrom:
             secretKeyRef:
               name: grafana-sync-secret
