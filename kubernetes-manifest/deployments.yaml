@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: sync-agent-container
-        image: my-keycloak-grafana-sync:latest # Replace with your actual image repository/tag
+        image: ghcr.io/feriva22/sync-grafana-team-keycloak:main # Replace with your actual image repository/tag
         imagePullPolicy: Always
         
         # --- Resource Limits ---
