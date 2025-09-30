@@ -74,13 +74,13 @@ spec:
           valueFrom:
             secretKeyRef:
               name: grafana-sync-secret
-              key: grafana_username
+              key: grafana_user
         # Grafana Password (if needed)
         - name: GRAFANA_PASSWORD
           valueFrom:
             secretKeyRef:
               name: grafana-sync-secret
-              key: grafana_password
+              key: grafana_pass
               
         # --- Health Check (Matches your Dockerfile CMD) ---
         # Ensures K8s can monitor the app's running state
