@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-sync-agent
+  labels:
+    app: sync-agent
+spec:
+  replicas: 1 # Typically, you only need one instance of a sync agent
+  selector:
+    matchLabels:
+      app: sync-agent
+  template:
+    metadata:
+      labels:
+        app: sync-agent
+    spec:
+      containers:
+      - name: sync-agent-container
+        image: my-keycloak-grafana-sync:latest # Replace with your actual image repository/tag
+        imagePullPolicy: Always
+        
+        # --- Resource Limits ---
+        resources:
+          limits:
+            cpu: "500m"      # Max 0.5 CPU core
+            memory: "256Mi"  # Max 256 MiB of memory
+          requests:
+            cpu: "100m"      # Request 0.1 CPU core
+            memory: "128Mi"  # Request 128 MiB of memory
+
+        # --- Environment Variables (from Secret) ---
+        env:
+        # Keycloak Configuration
+        - name: KEYCLOAK_URL
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-sync-secret
+              key: keycloak_url
+        - name: KEYCLOAK_REALM
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-sync-secret
+              key: keycloak_realm
+        - name: KEYCLOAK_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-sync-secret
+              key: keycloak_client_id
+        # Token/Secret from Keycloak is sensitive, use secretKeyRef
+        - name: KEYCLOAK_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-sync-secret
+              key: keycloak_client_secret
+              
+        # Grafana Configuration
+        - name: GRAFANA_URL
+          valueFrom:
+            secretKeyRef:
+              name: grafana-sync-secret
+              key: grafana_url
+        # Grafana Admin Token/Key is sensitive
+        - name: GRAFANA_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: grafana-sync-secret
+              key: grafana_token
+              
+        # --- Health Check (Matches your Dockerfile CMD) ---
+        # Ensures K8s can monitor the app's running state
+        readinessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep app"]
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        livenessProbe:
+          exec:
+            command: ["sh", "-c", "pgrep app"]
+          initialDelaySeconds: 60
+          periodSeconds: 60

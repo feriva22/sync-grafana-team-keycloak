@@ -1,0 +1,45 @@
+# Go build artifacts
+/bin/
+/build/
+/dist/
+/out/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go vendor directory
+/vendor/
+
+# IDE/editor files
+*.swp
+*.swo
+*.idea/
+.vscode/
+*.log
+
+# Dependency directories
+node_modules/
+__pycache__/
+
+# Environment files
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage files
+*.coverprofile
+coverage.out
+
+# Go module files (keep go.mod and go.sum, ignore others)
+go.work
+go.work.sum
+
+# Test cache
+*.tmp
+*.cache
