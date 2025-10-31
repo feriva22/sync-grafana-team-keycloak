@@ -1,0 +1,1 @@
+This program to handle team sync in Grafana OSS with keycloak via REST API with interval base
